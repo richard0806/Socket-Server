@@ -12,6 +12,7 @@ export default class Server {
 
   public io: socketIO.Server;
   private httpServer: http.Server;
+  // usuario = '';
 
   private constructor() {
     this.app = express();
@@ -28,11 +29,18 @@ export default class Server {
   private escucharSockets() {
     console.log("Escuchando conexioones - sockets");
     this.io.on("connection", (cliente) => {
-      console.log("Cliente conectado");
+      // console.log("Cliente conectado");
+
+      //Conectar Cliente
+      socket.conectarCliente( cliente );
+
+      // Configurando el usuario que acaba de iniciar
+      socket.configUsuarios( cliente, this.io );
+
       // Desconectar
-      socket.desconectar(cliente);
+      socket.desconectar( cliente );
       // Mensajes
-      socket.mensaje(cliente, this.io);
+      socket.mensaje( cliente, this.io );
     });
   }
 
